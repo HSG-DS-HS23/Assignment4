@@ -1,4 +1,4 @@
-package com.assignment4.tasks;
+package main.java.com.assignment4.tasks;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -37,7 +37,7 @@ public class UdpLTClient {
                 int messageTime = lc.getCurrentTimestamp();
                 String responseMessage = messageBody + ':' + messageTime;
 
-                lc.tick;
+                lc.tick();
 
                 // check if the user wants to quit
                 if(messageBody.equalsIgnoreCase("quit")){
@@ -46,7 +46,7 @@ public class UdpLTClient {
                 }
 
                 sendData = responseMessage.getBytes();
-                DatagramPacket packetToSend = new DatagramPacket(sendData,sendData.length(),IPAddress,4040);
+                DatagramPacket packetToSend = new DatagramPacket(sendData,sendData.length,IPAddress,4040);
                 clientSocket.send(packetToSend);
 
                 LTClientThread client;

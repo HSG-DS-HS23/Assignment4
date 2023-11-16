@@ -1,4 +1,4 @@
-package com.assignment4.tasks;
+package main.java.com.assignment4.tasks;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -19,8 +19,12 @@ public class LTClientThread implements Runnable {
     @Override
     public void run() {
         String response = null;
-        DatagramPacket receivedPacket = new DatagramPacket(receiveData,receiveData.length());
-        clientSocket.receive(receivedPacket);
+        DatagramPacket receivedPacket = new DatagramPacket(receiveData,receiveData.length);
+        try {
+            clientSocket.receive(receivedPacket);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         response = new String(receivedPacket.getData(),0,receivedPacket.getLength());
 
         String[] fullMessage = response.split(":");

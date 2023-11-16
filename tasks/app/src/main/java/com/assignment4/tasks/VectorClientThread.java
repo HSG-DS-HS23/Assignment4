@@ -1,4 +1,4 @@
-package com.assignment4.tasks;
+package main.java.com.assignment4.tasks;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

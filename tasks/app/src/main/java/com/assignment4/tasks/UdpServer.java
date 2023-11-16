@@ -4,7 +4,7 @@
  * In this task we do not use any global clock since the distributed systems lack such reference points. The vector clocks
  * in this situation can help create a partial ordering of the messages.
  */
-package com.assignment4.tasks;
+package main.java.com.assignment4.tasks;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
