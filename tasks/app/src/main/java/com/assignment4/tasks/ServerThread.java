@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import static com.assignment4.tasks.UdpServer.isInteger;
+import static main.java.com.assignment4.tasks.UdpServer.isInteger;
 
 public class ServerThread implements Runnable {
 

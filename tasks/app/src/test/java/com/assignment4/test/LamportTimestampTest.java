@@ -1,6 +1,6 @@
-package com.assignment4.test;
+package test.java.com.assignment4.test;
 
-import com.assignment4.tasks.LamportTimestamp;
+import main.java.com.assignment4.tasks.LamportTimestamp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 class LamportTimestampTest {

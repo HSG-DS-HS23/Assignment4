@@ -1,8 +1,8 @@
-package com.assignment4.test;
+package test.java.com.assignment4.test;
 
-import com.assignment4.tasks.VectorClock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import main.java.com.assignment4.tasks.VectorClock;
 
 
 class VectorClockTest {
