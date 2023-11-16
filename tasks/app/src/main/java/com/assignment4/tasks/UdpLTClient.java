@@ -37,9 +37,7 @@ public class UdpLTClient {
                 int messageTime = lc.getCurrentTimestamp();
                 String responseMessage = messageBody + ':' + messageTime;
 
-                /*
-                 * write your code to increment clock when the message is sent
-                 */
+                lc.tick;
 
                 // check if the user wants to quit
                 if(messageBody.equalsIgnoreCase("quit")){
@@ -47,9 +45,9 @@ public class UdpLTClient {
                     System.exit(1);
                 }
 
-                /*
-                 * write your code to send the message to the server
-                 */
+                sendData = responseMessage.getBytes();
+                DatagramPacket packetToSend = new DatagramPacket(sendData,sendData.length(),IPAddress,4040);
+                clientSocket.send(packetToSend);
 
                 LTClientThread client;
                 client = new LTClientThread(clientSocket, lc);
