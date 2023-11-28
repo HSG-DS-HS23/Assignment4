@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.util.*;
 
 
@@ -52,7 +53,8 @@ public class UdpVectorClient {
 
             // send the message to the server
             sendData = responseMessage.getBytes();
-
+            DatagramPacket packetToSend = new DatagramPacket(sendData,sendData.length,IPAddress,4040);
+            clientSocket.send(packetToSend);
             /*
              * write your code to send message to the server. clientSocket.send(messageTosend);
              */
@@ -69,6 +71,21 @@ public class UdpVectorClient {
                  * You can use the clientSocket.setSoTimeout(timeinmiliseconds); to detect if the all the messages have been received
                  * update the logs list
                  */
+                clientSocket.setSoTimeout(1000);
+
+                while (true){
+                    try {
+                        DatagramPacket getack = new DatagramPacket(receiveData, receiveData.length);
+                        clientSocket.receive(getack);
+                        String response = new String(getack.getData(), 0, getack.getLength());
+                        logs.add(response);
+                        if(!response.isEmpty()){
+                            clientSocket.setSoTimeout(1000);
+                        }
+                    }catch (SocketTimeoutException e){
+                        break;
+                    }
+                }
 
                 UdpVectorClient uc = new UdpVectorClient();
                 uc.showHistory(logs); // gives out all the unsorted logs stored at the server
@@ -104,7 +121,42 @@ public class UdpVectorClient {
          * once sorted print the logs that are following the correct sequence of the message flow
          * to store the sorted logs for printing you could use LinkedHashMap
          */
+        for (String message: logs){
+            String chat = message.split(":")[0];
+            String clock = message.split(":")[1];
+            int[] vectorClock = new int[]{Integer.parseInt(Arrays.toString(clock.replace("\\[", "").replace("\\]", "").split(",")))};
+            logMap.put(vectorClock, message);
+            printSortedLogs(logMap);
+
+        }
 
     }
+    public void printSortedLogs(Map<int[], String> map){
+        List<Map.Entry<int[], String>> list = new ArrayList<>(map.entrySet());
+        list.sort(compareVectorTimestamps);
+        // Create a new LinkedHashMap and add the sorted entries
+        for (Map.Entry<int[], String> entry : list) {
+            System.out.println(entry.getKey() + " " + entry.getValue());
+        }
+    }
+
+    // Custom comparator to compare Vector clocks
+    public Comparator<Map.Entry<int[], String>> compareVectorTimestamps = new Comparator<>() {
+        @Override
+        public int compare(Map.Entry<int[], String> o1, Map.Entry<int[], String> o2) {
+            ArrayList<Boolean> isLarger = new ArrayList<>();
+            for (int i = 0; i < o1.getKey().length; i++) {
+                isLarger.set(i, (o1.getKey()[i] > o2.getKey()[i]));
+            }
+            if(!isLarger.contains(false)){
+                return 1;
+            } else if (!isLarger.contains(true)) {
+                return -1;
+            }else{
+                return 0;
+            }
+
+        }
+    };
 
 }

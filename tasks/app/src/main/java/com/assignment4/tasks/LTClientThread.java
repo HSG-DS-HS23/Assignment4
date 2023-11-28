@@ -31,9 +31,10 @@ public class LTClientThread implements Runnable {
         String message = fullMessage[0];
         int timestamp = Integer.parseInt(fullMessage[1]);
 
-        System.out.println("Server:" + response + ":" + lc.getCurrentTimestamp());
 
         lc.updateClock(timestamp);
+        System.out.println("Server:" + message + ":" + lc.getCurrentTimestamp());
+
         /*
          * write your code to parse the response. Remember the response you receive is in message:timestamp format.
          * response.split(":");

@@ -43,12 +43,12 @@ src
 ###### On MacOS:
 ```bash
 ./gradlew build  -x test
-./gradlew run -PchooseMain="com.assignment4.tasks.UdpServer"  
+./gradlew run -PchooseMain="main.java.com.assignment4.tasks.UdpServer"  
 ```
 ###### On Windows:
 ```bash
 .\gradlew build  -x test
-.\gradlew run -PchooseMain="com.assignment4.tasks.UdpServer"  
+.\gradlew run -PchooseMain="main.java.com.assignment4.tasks.UdpServer"  
 ```
 
 ## Task 1
@@ -66,12 +66,12 @@ src
 ###### On MacOS:
 
 ```bash
-./gradlew run -PchooseMain="com.assignment4.tasks.UdpLTClient" --console=plain 
+./gradlew run -PchooseMain="main.java.com.assignment4.tasks.UdpLTClient" --console=plain 
 ```
 
 ###### On Windows:
 ```bash
-.\gradlew run -PchooseMain="com.assignment4.tasks.UdpLTClient" --console=plain 
+.\gradlew run -PchooseMain="main.java.com.assignment4.tasks.UdpLTClient" --console=plain 
 ```
 
 ## Task 2
@@ -89,9 +89,9 @@ src
 2. Run your vector clock client
 ###### MacOS
 ```bash
- ./gradlew run -PchooseMain="com.assignment4.tasks.UdpVectorClient" --console=plain 
+ ./gradlew run -PchooseMain="main.java.com.assignment4.tasks.UdpVectorClient" --console=plain 
  ```
 ###### Windows
 ```bash
- .\gradlew run -PchooseMain="com.assignment4.tasks.UdpVectorClient" --console=plain 
+ .\gradlew run -PchooseMain="main.java.com.assignment4.tasks.UdpVectorClient" --console=plain 
  ```

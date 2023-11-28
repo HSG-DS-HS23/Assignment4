@@ -23,6 +23,7 @@ public class LamportTimestamp {
         if (timestamp < receivedTimestamp) {
             timestamp = receivedTimestamp; // update the function to choose max out of the two received timestamps
         }
+        timestamp += 1;
     }
 
 }

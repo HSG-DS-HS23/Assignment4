@@ -20,15 +20,33 @@ public class VectorClientThread implements Runnable {
 
     @Override
     public void run() {
-        String response = "example:[1,1.0.0]"; //update this with the real response string from server
-        /*
-         * Write your code to receive messgaes from the server and update the vector clock
-         */
-        String[] responseMessageArray = response.split(":");
-        /*
-         * you could use "replaceAll("\\p{Punct}", " ").trim().split("\\s+");" for filteing the received message timestamps
-         * update clock and increament local clock (tick) for receiving the message
-         */
-        System.out.println("Server:" +responseMessageArray[0] +" "+ vcl.showClock());
+        try {
+            String response = null; //update this with the real response string from server
+            DatagramPacket receivedPacket = new DatagramPacket(receiveData, receiveData.length);
+            clientSocket.receive(receivedPacket);
+            response = new String(receivedPacket.getData(), 0, receivedPacket.getLength());
+            String[] responseMessageArray = response.split(":");
+            String message = responseMessageArray[0];
+            String intString = responseMessageArray[1];
+            String[] stringArray = intString.replaceAll("\\p{Punct}", " ").trim().split("\\s+");
+            int[] intArray = new int[stringArray.length];
+            for (int i = 0; i < stringArray.length; i++) {
+                int number = Integer.parseInt(stringArray[i]);
+                intArray[i] = number;
+            }
+            /*
+             * you could use "replaceAll("\\p{Punct}", " ").trim().split("\\s+");" for filteing the received message timestamps
+             * update clock and increament local clock (tick) for receiving the message
+             */
+
+            VectorClock vcl2 = new VectorClock(intArray.length);
+            for (int i = 0; i < intArray.length; i++) {
+                vcl2.setVectorClock(i, intArray[i]);
+            }
+            System.out.println("Server:" + message + " " + vcl.showClock());
+            vcl.updateClock(vcl2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
