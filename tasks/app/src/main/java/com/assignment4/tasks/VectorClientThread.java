@@ -1,8 +1,10 @@
 package main.java.com.assignment4.tasks;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.Arrays;
 
 public class VectorClientThread implements Runnable {
 
@@ -39,12 +41,9 @@ public class VectorClientThread implements Runnable {
              * update clock and increament local clock (tick) for receiving the message
              */
 
-            VectorClock vcl2 = new VectorClock(intArray.length);
-            for (int i = 0; i < intArray.length; i++) {
-                vcl2.setVectorClock(i, intArray[i]);
-            }
+            vcl.setVectorClock(intArray[0], intArray[1]);
+            vcl.tick(id);
             System.out.println("Server:" + message + " " + vcl.showClock());
-            vcl.updateClock(vcl2);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -44,7 +44,6 @@ public class UdpVectorClient {
             messageTime.put(id,vcl.getCurrentTimestamp(id));
             Message msg = new Message(messageBody, messageTime);
             String responseMessage = msg.content + ':' + msg.messageTime;
-
             // check if the user wants to quit
             if(messageBody.equals("quit")){
                 clientSocket.close();
@@ -124,19 +123,24 @@ public class UdpVectorClient {
         for (String message: logs){
             String chat = message.split(":")[0];
             String clock = message.split(":")[1];
-            int[] vectorClock = new int[]{Integer.parseInt(Arrays.toString(clock.replace("\\[", "").replace("\\]", "").split(",")))};
-            logMap.put(vectorClock, message);
-            printSortedLogs(logMap);
-
+            clock = clock.replaceAll("\\[|\\]", "");
+            clock = clock.replace(" ", "");
+            String[] vectorClockStringArray = clock.split(",");
+            int[] vectorClock = new int[vectorClockStringArray.length];
+            for (int i = 0; i < vectorClock.length; i++) {
+                vectorClock[i] = Integer.parseInt(vectorClockStringArray[i]);
+            }
+            logMap.put(vectorClock, chat);
         }
+        printSortedLogs(logMap);
 
     }
     public void printSortedLogs(Map<int[], String> map){
         List<Map.Entry<int[], String>> list = new ArrayList<>(map.entrySet());
         list.sort(compareVectorTimestamps);
-        // Create a new LinkedHashMap and add the sorted entries
+        //Print all entries of sorted list
         for (Map.Entry<int[], String> entry : list) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+            System.out.println(Arrays.toString(entry.getKey()) + " " + entry.getValue());
         }
     }
 
@@ -146,7 +150,7 @@ public class UdpVectorClient {
         public int compare(Map.Entry<int[], String> o1, Map.Entry<int[], String> o2) {
             ArrayList<Boolean> isLarger = new ArrayList<>();
             for (int i = 0; i < o1.getKey().length; i++) {
-                isLarger.set(i, (o1.getKey()[i] > o2.getKey()[i]));
+                isLarger.add(o1.getKey()[i] > o2.getKey()[i]);
             }
             if(!isLarger.contains(false)){
                 return 1;
