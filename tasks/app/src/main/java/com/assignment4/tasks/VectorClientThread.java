@@ -36,11 +36,8 @@ public class VectorClientThread implements Runnable {
                 int number = Integer.parseInt(stringArray[i]);
                 intArray[i] = number;
             }
-            /*
-             * you could use "replaceAll("\\p{Punct}", " ").trim().split("\\s+");" for filteing the received message timestamps
-             * update clock and increament local clock (tick) for receiving the message
-             */
 
+            //Update servers clock stamp
             vcl.setVectorClock(intArray[0], intArray[1]);
             vcl.tick(id);
             System.out.println("Server:" + message + " " + vcl.showClock());

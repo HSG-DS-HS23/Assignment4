@@ -135,6 +135,8 @@ public class UdpVectorClient {
         printSortedLogs(logMap);
 
     }
+
+    // Turns log into List, sorts it and prints result
     public void printSortedLogs(Map<int[], String> map){
         List<Map.Entry<int[], String>> list = new ArrayList<>(map.entrySet());
         list.sort(compareVectorTimestamps);
@@ -152,6 +154,10 @@ public class UdpVectorClient {
             for (int i = 0; i < o1.getKey().length; i++) {
                 isLarger.add(o1.getKey()[i] > o2.getKey()[i]);
             }
+
+            // If all are larger return 1
+            // If all are smaller return -1
+            // If some are smaller and some larger return 0 (Timestamps are concurrent)
             if(!isLarger.contains(false)){
                 return 1;
             } else if (!isLarger.contains(true)) {
